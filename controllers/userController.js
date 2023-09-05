@@ -1,8 +1,12 @@
 const { prisma } = require("../config/connect");
+const BigPromises = require("../middlewares/BigPromises");
+const ErrorHandler = require("../utils/ErrorHandler");
 
-exports.registerUser=async(req,res)=>{
+exports.registerUser=BigPromises(async(req,res,next)=>{
     const { name, street, city, state, postalCode } = req.body;
-   
+     if(!name || !street || !city || !state || !postalCode){
+        return next(new ErrorHandler("Please add all feilds", 400));
+     }
     const user=await prisma.user.create({
         data: {
             name,
@@ -19,14 +23,19 @@ exports.registerUser=async(req,res)=>{
             address: true,
           },
     })
+    if(!user){
+      
+      return next(new ErrorHandler("SOmething went wrong", 500))
+    }
     res.status(200).json({
       success:true,
       user:`${user.name} your form had been Submited Successfully `,
       user
     })
-}
-exports.getUserById=async(req,res)=>{
+})
+exports.getUserById=BigPromises(async(req,res,next)=>{
   
+
     const user=await prisma.user.findFirst({
         where:{
             id:req.params.id
@@ -36,8 +45,11 @@ exports.getUserById=async(req,res)=>{
           },
            
     })
+    if(!user){
+        return next(new ErrorHandler("No User Found", 404))
+    }
     res.status(200).json({
       success:true,
       user
     })
-}
+})
