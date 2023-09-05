@@ -4,9 +4,13 @@ require('dotenv').config()
 
 app.use(express.json())
 
+const user=require('./routes/userRoutes')
+
 app.get('/',(req,res)=>{
     res.json("Testing")
 })
+
+app.use('/api/v1',user)
 
 
 app.listen(process.env.PORT,()=>{
