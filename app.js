@@ -1,17 +1,26 @@
+/*--------------------IMPORTS------------------*/
 const express=require('express')
 const app=express()
+const ErrorMiddleware = require('./middlewares/ErrorMiddleware')
 require('dotenv').config()
 
+
+
+/*--------------------Routes Imports------------------*/
+const user=require('./routes/userRoutes')
+
+
+
+/*--------------------Middlewares------------------*/
 app.use(express.json())
 
-const user=require('./routes/userRoutes')
-const ErrorMiddleware = require('./middlewares/ErrorMiddleware')
-
+/*------------------Routes--------------------*/
 app.get('/',(req,res)=>{
     res.json("Testing")
 })
 
 app.use('/api/v1',user)
+
 
 app.use(ErrorMiddleware)
 
