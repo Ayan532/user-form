@@ -9,7 +9,7 @@ prisma
 express
 
 # To run Locally
-1. git clone https://github.com/Ayan532/Blog.git](https://github.com/Ayan532/user-form.git
+1. git clone (https://github.com/Ayan532/user-form.git
 2. Set up the env Variables
 3. Set up Docker  - docker compose up
 4. npm install
